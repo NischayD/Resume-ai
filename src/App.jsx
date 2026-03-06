@@ -142,23 +142,7 @@ function PaywallModal({ onClose, onSuccess }) {
           </button>
 
           {/* Monthly */}
-          <button onClick={() => handlePlan("monthly")} disabled={!!loading} style={{ padding: "18px 20px", borderRadius: "14px", border: `1px solid ${ac}50`, background: `rgba(99,102,241,0.08)`, cursor: loading ? "not-allowed" : "pointer", textAlign: "left", transition: "all 0.2s", fontFamily: "Inter,system-ui,sans-serif", position: "relative", overflow: "hidden" }}
-            onMouseEnter={e => { if (!loading) e.currentTarget.style.background = "rgba(99,102,241,0.15)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "rgba(99,102,241,0.08)"; }}>
-            <div style={{ position: "absolute", top: "8px", right: "12px", background: ac, color: "#fff", fontSize: "10px", fontWeight: "700", padding: "2px 8px", borderRadius: "980px", letterSpacing: "0.5px" }}>BEST VALUE</div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <div>
-                <div style={{ fontSize: "15px", fontWeight: "600", color: "#e2e8f0", marginBottom: "3px" }}>
-                  {loading === "monthly" ? "Redirecting..." : "Monthly Unlimited"}
-                </div>
-                <div style={{ fontSize: "12px", color: "#6b7280" }}>Unlimited scans for 30 days</div>
-              </div>
-              <div>
-                <div style={{ fontSize: "22px", fontWeight: "700", color: "#a5b4fc" }}>$9</div>
-                <div style={{ fontSize: "10px", color: "#6b7280", textAlign: "right" }}>/month</div>
-              </div>
-            </div>
-          </button>
+
         </div>
 
         <div style={{ fontSize: "11px", color: "#2d2d4d", textAlign: "center", marginTop: "16px" }}>
@@ -261,24 +245,26 @@ export default function App() {
 
   if (verifying) {
     return (
-      <div style={{ minHeight: "100dvh", background: "#08080f", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "16px", fontFamily: "Inter,system-ui,sans-serif" }}>
+      <div style={{ minHeight: "100dvh", background: "#0e0e18", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "16px", fontFamily: "Inter,system-ui,sans-serif" }}>
         <div style={{ width: "40px", height: "40px", border: `3px solid ${ac}`, borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
-        <style>{`@keyframes spin { to{transform:rotate(360deg)} }`}</style>
+        <style>{`@keyframes spin { to{transform:rotate(360deg)} }
+        @keyframes rainbowShift { 0%{background-position:0% center} 100%{background-position:200% center} }`}</style>
         <div style={{ color: "#6b7280", fontSize: "14px" }}>Verifying payment...</div>
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: "100dvh", background: "#08080f", backgroundImage: `radial-gradient(ellipse 100% 40% at 50% 0%, rgba(99,102,241,0.12) 0%, transparent 60%)`, display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
+    <div style={{ minHeight: "100dvh", background: "#0e0e18", backgroundImage: `radial-gradient(ellipse 100% 40% at 50% 0%, rgba(99,102,241,0.12) 0%, transparent 60%)`, display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
       <div style={{ width: "100%", maxWidth: "720px", display: "flex", flexDirection: "column", alignItems: "center", color: "#e2e8f0", fontFamily: "'Inter', system-ui, sans-serif", padding: "32px 16px 80px", boxSizing: "border-box" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
         @keyframes spin { to{transform:rotate(360deg)} }
+        @keyframes rainbowShift { 0%{background-position:0% center} 100%{background-position:200% center} }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
         *, *::before, *::after { box-sizing: border-box; }
-        html, body { margin: 0; padding: 0; width: 100%; background: #08080f; }
+        html, body { margin: 0; padding: 0; width: 100%; background: #0e0e18; }
         #root { width: 100%; display: flex; justify-content: center; }
         textarea { font-family: 'Inter', system-ui, sans-serif; }
         ::-webkit-scrollbar { width: 4px; }
@@ -297,21 +283,12 @@ export default function App() {
       {/* Header */}
       <div style={{ width: "100%", textAlign: "center", marginBottom: "40px" }}>
         <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)", borderRadius: "980px", padding: "6px 16px", fontSize: "12px", color: "#a5b4fc", marginBottom: "16px", letterSpacing: "0.05em" }}>✦ AI-POWERED</div>
-        <h1 style={{ fontSize: "clamp(28px,5vw,44px)", fontWeight: "700", letterSpacing: "-0.04em", color: "#fff", margin: "0 0 12px", lineHeight: 1.1 }}>
+        <h1 style={{ fontSize: "clamp(28px,5vw,44px)", fontWeight: "700", letterSpacing: "-0.04em", color: "#fff", margin: "0 0 8px", lineHeight: 1.1 }}>
           Resume <span style={{ color: ac }}>Screener</span>
         </h1>
         <p style={{ fontSize: "16px", color: "#4a4a6a", margin: "0 0 12px", lineHeight: 1.6 }}>Upload your resume + paste a job description.<br />Get your ATS score, match %, and exactly what to fix.</p>
 
         {/* Plan badge */}
-        {paidPlan === "monthly" ? (
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.25)", borderRadius: "980px", padding: "4px 12px", fontSize: "12px", color: green }}>
-            ✓ Monthly Plan · Unlimited scans
-          </div>
-        ) : (
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "980px", padding: "4px 12px", fontSize: "12px", color: "#6b7280" }}>
-            {getScansUsed() < FREE_LIMIT ? `${FREE_LIMIT - getScansUsed()} free scan remaining` : "Free scan used · Upgrade to continue"}
-          </div>
-        )}
       </div>
 
       {/* Steps */}
@@ -417,7 +394,21 @@ export default function App() {
         </div>
       )}
 
-      <div style={{ marginTop: "40px", fontSize: "11px", color: "#1e1e2e", letterSpacing: "1px", textAlign: "center" }}>RESUME SCREENER · POWERED BY GPT-4o-mini</div>
+      <div style={{ marginTop: "40px", fontSize: "11px", color: "#1e1e2e", letterSpacing: "1px", textAlign: "center", lineHeight: 2 }}>
+        RESUME SCREENER · POWERED BY GPT-4o-mini<br/>
+        <span style={{
+          background: "linear-gradient(90deg, #ff6ef7, #a78bfa, #60a5fa, #34d399, #fbbf24, #f87171, #ff6ef7)",
+          backgroundSize: "200% auto",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+          animation: "rainbowShift 4s linear infinite",
+          letterSpacing: "3px",
+          fontWeight: "600",
+          fontSize: "12px",
+          filter: "drop-shadow(0 0 8px rgba(167,139,250,0.6)) drop-shadow(0 0 16px rgba(96,165,250,0.4))",
+        }}>BUILT BY NISCHAY</span>
+      </div>
       </div>
     </div>
   );
