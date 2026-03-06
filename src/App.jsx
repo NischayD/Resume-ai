@@ -1,8 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import * as pdfjsLib from "pdfjs-dist";
+import workerSrc from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
-// Use cdnjs for reliability on all devices including iOS
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc;
 
 const FREE_LIMIT = 1;
 const STORAGE_KEY = "resume_scans_used";
@@ -292,7 +292,6 @@ export default function App() {
         <p style={{ fontSize: "16px", color: "#4a4a6a", margin: "0 0 12px", lineHeight: 1.6 }}>Upload your resume + paste a job description.<br />Get your ATS score, match %, and exactly what to fix.</p>
 
         {/* Plan badge */}
-        <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.2)", letterSpacing: "3px" }}>BUILT BY NISCHAY</div>
       </div>
 
       {/* Steps */}
