@@ -1,8 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import * as pdfjsLib from "pdfjs-dist";
 
-// CDN worker — works on iOS Safari, Android Chrome, Firefox, all browsers
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
+// Use cdnjs for reliability on all devices including iOS
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 const FREE_LIMIT = 1;
 const STORAGE_KEY = "resume_scans_used";
@@ -13,26 +13,20 @@ function setPaidAccess() {}
 function getPaidPlan() { return "monthly"; } // free for now — all users get unlimited
 
 async function extractTextFromPDF(file) {
-  try {
-    const arrayBuffer = await file.arrayBuffer();
-    const loadingTask = pdfjsLib.getDocument({
-      data: arrayBuffer,
-      useWorkerFetch: false,
-      isEvalSupported: false,
-      useSystemFonts: true,
-    });
-    const pdf = await loadingTask.promise;
-    let text = "";
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      text += content.items.map(item => item.str).join(" ") + "\n";
-    }
-    return text.trim();
-  } catch (err) {
-    console.error("PDF parse error:", err);
-    throw new Error("Could not read PDF. Make sure it's a text-based PDF (not scanned image).");
+  const arrayBuffer = await file.arrayBuffer();
+  const loadingTask = pdfjsLib.getDocument({
+    data: arrayBuffer,
+    disableAutoFetch: true,
+    disableStream: true,
+  });
+  const pdf = await loadingTask.promise;
+  let text = "";
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text += content.items.map(item => item.str).join(" ") + "\n";
   }
+  return text.trim();
 }
 
 async function analyzeResume(resumeText, jobDescription) {
@@ -298,6 +292,7 @@ export default function App() {
         <p style={{ fontSize: "16px", color: "#4a4a6a", margin: "0 0 12px", lineHeight: 1.6 }}>Upload your resume + paste a job description.<br />Get your ATS score, match %, and exactly what to fix.</p>
 
         {/* Plan badge */}
+        <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.2)", letterSpacing: "3px" }}>BUILT BY NISCHAY</div>
       </div>
 
       {/* Steps */}
